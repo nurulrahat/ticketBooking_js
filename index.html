@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
@@ -34,8 +36,11 @@
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
         </div>
 
-
-        <div class="booking-form">
+        <div id="bookingComplete">
+            <h2> Congrats! <br> Your Booking Has Completed</h2>
+        </div>
+        <div id="bookingForm" class="booking-form">
+           
             <h3>Explore By Bus</h3>
 
             <div class="inputs">
@@ -59,23 +64,27 @@
                     <input class="inp-style" type="date" name="">
                 </div>
             </div>
+            <!-- Assignment Area Start -->
             <div class="inputs">
                 <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="quantity1Id" class=" inp-width"  type="number" name="" value="1">
+                    
                 </div>
                 <div class="plus-minus-btn">
-                    <p>+ -</p>
+                    <button id="plus1" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                    <button id="minus1" class="btn btn-default"><i class="fas fa-minus"></i></button>
                 </div>
             </div>
                 <div class="input-group f-class">
                     <div>
                         <label for="">Economy ($100)</label>
-                        <input class="inp-style inp-width" type="number" name="">
+                        <input id="quantity2Id" class="inp-style inp-width" type="number" name="" value="1">
                     </div>
                     <div class="plus-minus-btn">
-                        <p> <span>+</span> <span>-</span> </p>
+                        <button id="plus2" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                        <button id="minus2" class="btn btn-default"><i class="fas fa-minus"></i></button>
                     </div>
                 </div>
 
@@ -86,7 +95,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p>$<span id="subTotalId">250</span></p>
                     </div>
                 </div>
 
@@ -95,7 +104,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p>$ <span id="taxId">25</span></p>
                     </div>
                 </div>
                 <hr>
@@ -104,15 +113,91 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p>$<span id="totalId">275</span></p>
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button id="bookNow" class="btn-style">Book Now</button>
         </div>
     </main>
+<script>
+   
+    function plusMinusCount(change,countId,countIdValue)
+    {
+        
+        const quantity=countIdValue;
+        let quantityItem=parseInt(quantity);
+        if(change==true){
+            quantityItem++;
+            countId.value=quantityItem;
+            totalCost();
+            
+        }
+        if(change==false&&quantityItem>0)
+        {
+            quantityItem--;
+            countId.value=quantityItem;
+            totalCost();
+        }
+             
 
-    <!--Thank You-->
+    }
+    //total cost 
+    function totalCost()
+    {
+        const firstClassCount=document.getElementById("quantity1Id").value;
+        const firstClassNumber=parseInt(firstClassCount);
+        const economyClassCount=document.getElementById("quantity2Id").value;
+        const economyClassNumber=parseInt(economyClassCount);
+        const subTotal= 150*firstClassNumber+100*economyClassNumber;
+        const tax=subTotal*.1;
+        const total=subTotal+tax;
+        document.getElementById("subTotalId").innerText=subTotal;
+        document.getElementById("taxId").innerText=tax;
+        document.getElementById("totalId").innerText=total;
+        
+    }
+   
+      const plus1=document.getElementById("plus1");
+      plus1.addEventListener("click", function(){
+         const quantity1Id=document.getElementById("quantity1Id");
+         const quantity1Value =document.getElementById("quantity1Id").value;
+         plusMinusCount(true,quantity1Id,quantity1Value);
+         
+      })
+      const minus1=document.getElementById("minus1");
+      minus1.addEventListener("click", function(){
+         const quantity1Id=document.getElementById("quantity1Id");
+         const quantity1Value =document.getElementById("quantity1Id").value;
+         plusMinusCount(false,quantity1Id,quantity1Value);
+         
+      })
+      const plus2=document.getElementById("plus2");
+      plus2.addEventListener("click", function(){
+         const quantity2Id=document.getElementById("quantity2Id");
+         const quantity2Value =document.getElementById("quantity2Id").value;
+         plusMinusCount(true,quantity2Id,quantity2Value);
+         
+      })
+      const minus2=document.getElementById("minus2");
+      minus2.addEventListener("click", function(){
+         const quantity2Id=document.getElementById("quantity2Id");
+         const quantity2Value =document.getElementById("quantity2Id").value;
+         plusMinusCount(false,quantity2Id,quantity2Value);
+         
+      })
+      //extra part of booking complete
+      const bookNow=document.getElementById("bookNow");
+      bookNow.addEventListener("click",function(){
+          document.getElementById("bookingForm").style.display="none";
+          document.getElementById("bookingComplete").style.display="block";
+
+      })
+
+
+    
+</script>
+    
 </body>
 
 </html>
